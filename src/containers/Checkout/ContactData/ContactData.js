@@ -136,7 +136,7 @@ class ContactData extends Component {
 
     // Validation method for form submission
     checkValidity (value, rules) {
-        let isValid = false;
+        let isValid = true;
         if (!rules) {
             return true;
         }
@@ -144,8 +144,14 @@ class ContactData extends Component {
         if (rules.required) {
             isValid = value.trim() !== '';
         }
+
+        // Minimum length of text required input box
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength;
+        }
         return isValid;
 
+        // Max length of text 
         // if (rules.minLength) {
         //     isValid = value.length >= rules.minLength;
         // }
