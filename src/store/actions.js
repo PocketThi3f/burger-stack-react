@@ -1,0 +1,2 @@
+export const ADD_TOPPINGS = 'ADD_TOPPINGS';
+export const REMOVE_TOPPINGS = 'REMOVE_TOPPINGS';

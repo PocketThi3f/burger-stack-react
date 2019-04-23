@@ -10,6 +10,7 @@ const controls = [
     { label: 'Cheese', type: 'cheese'}
 ];
 
+// File that allows the of building the burger
 const buildControls = (props) => (
     <div className={classes.BuildControls}>
         <p>Your Price: <strong>${(props.price).toFixed(2)}</strong></p>
