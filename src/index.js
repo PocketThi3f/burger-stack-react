@@ -5,14 +5,26 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import { createStore } from 'redux';
-import reducer from './store/reducer';
+import reducer from './store/reducers/burgerBuilder';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-// The universal adopted name for createStore + reducer for Redux package
-const store = createStore(reducer);
+// Middleware setup
+// const logger = store => {
+//     return next => {
+//         return action => {
+//             console.log('[Middleware] Dispatching', action);
+//             const result = next(action);
+//             console.log('[Middleware] next state', store.getState());
+//             return result;
+//         }
+//     }
+// };
+
+// The universal name adopted for createStore + reducer for Redux package
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 const app = (
     <Provider store={store}>
