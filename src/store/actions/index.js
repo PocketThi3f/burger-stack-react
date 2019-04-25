@@ -3,4 +3,6 @@ export {
     removeTopping,
     initToppings
 } from './burgerBuilder';
-export {} from './order';
+export {
+    burgerOpenOrder
+} from './order';

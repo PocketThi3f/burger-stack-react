@@ -16,13 +16,20 @@ export const purchaseCancel = (error) => {
     };
 };
 
+export const purchaseBurgerStart = () => {
+    return {
+        type: actionTypes.PURCHASE_BURGER_START
+    };
+};
+
 export const burgerOpenOrder = (orderData) => {
     return dispatch => {
+        dispatch(purchaseBurgerStart());
         // End with .json in order for Firebase to call/function
         axios.post('/orders.json', orderData)
             .then(res => {
                 console.log(res.data);
-                dispatch(purchaseSuccess(res.data, orderData));
+                dispatch(purchaseSuccess(res.data.name, orderData));
             })
             .catch(error => {
                 dispatch(purchaseCancel(error));

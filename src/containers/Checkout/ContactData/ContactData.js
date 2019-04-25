@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 import classes from './ContactData.css';
 import axios from '../../../axios-orders';
+import * as actions from '../../../store/actions/index';
 
 class ContactData extends Component {
     state = {
@@ -88,6 +90,8 @@ class ContactData extends Component {
             price: this.props.price,
             orderData: formData
         }
+
+        this.props.onOpenOrder(order);
     }
 
     // When input is passed or text changes in the input box, listen to changes
@@ -168,7 +172,7 @@ class ContactData extends Component {
             </form>
         );
 
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />
         }
         return (
@@ -182,9 +186,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        topps: state.toppings,
-        price: state.totalPrice
+        topps: state.burgerBuilder.toppings,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading
     }
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onOpenOrder: (orderData) => dispatch(actions.burgerOpenOrder(orderData))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
