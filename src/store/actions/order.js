@@ -36,3 +36,51 @@ export const burgerOpenOrder = (orderData) => {
             });
     };
 };
+
+export const purchaseInit = () => {
+    return {
+        type: actionTypes.PURCHASE_INIT
+    };
+};
+
+export const fetchOrdersSuccess = (orders) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_SUCCESS,
+        orders: orders
+    };
+};
+
+export const fetchOrdersCancel = (error) => {
+    return {
+        type: actionTypes.FETCH_ORDERS_CANCEL,
+        error: error
+    };
+};
+
+export const fetchOrdersStart = () => {
+    return {
+        type: actionTypes.FETCH_ORDERS_START
+    };
+};
+
+export const fetchOrders = () => {
+    return dispatch => {
+        dispatch(fetchOrdersStart());
+        axios.get('/orders.json')
+            .then(res => {
+                // To view the keys/ids as props
+                // console.log(res.data);
+                const fetchOrders = [];
+                for (let key in res.data) {
+                    fetchOrders.push({
+                        ...res.data[key],
+                        id: key
+                    });
+                }
+                dispatch(fetchOrdersSuccess(fetchOrders));
+            })
+            .catch(err => {
+                dispatch(fetchOrdersCancel(err));
+            });
+    };
+};

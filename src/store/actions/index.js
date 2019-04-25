@@ -4,5 +4,7 @@ export {
     initToppings
 } from './burgerBuilder';
 export {
-    burgerOpenOrder
+    burgerOpenOrder,
+    purchaseInit,
+    fetchOrders
 } from './order';

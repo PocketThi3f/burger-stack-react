@@ -38,6 +38,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 toppings: action.toppings, // Here you would need to set a new object and list as action.toppings.salad (manually changing order of ingredients)
+                totalPrice: 2,
                 error: false
             }
         case actionTypes.FETCH_TOPPING_ERROR:

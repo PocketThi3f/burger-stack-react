@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 
 import ContactData from '../Checkout/ContactData/ContactData';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import * as actions from '../../store/actions/index';
 
 class Checkout extends Component {
+
     // state ={
     //     toppings: null,
     //     price: 0
@@ -29,6 +31,11 @@ class Checkout extends Component {
     //     });
     // }
 
+    // Lifecycle method
+    componentWillMount () {
+        this.props.onInitPurchase();
+    }
+
     // When you cancel the meal purchase, go back a page
     onCheckoutFail = () => {
         this.props.history.goBack();
@@ -42,8 +49,10 @@ class Checkout extends Component {
     render () {
         let summary = <Redirect to='/' />;
         if (this.props.topps) {
+            const purchaseRedirect = this.props.purchased ? <Redirect to='/' /> : null;
             summary = (
                 <div>
+                {purchaseRedirect}
                 <CheckoutSummary 
                     toppings={this.props.topps}
                     onCheckoutFail={this.onCheckoutFail}
@@ -61,8 +70,15 @@ class Checkout extends Component {
 
 const mapStateToProps = state => {
     return {
-        topps: state.burgerBuilder.toppings
+        topps: state.burgerBuilder.toppings,
+        purchased: state.order.purchased
     }
 };
 
-export default connect(mapStateToProps)(Checkout);
+const mapDispatchToProps = dispatch => {
+    return {
+        onInitPurchase: () => dispatch(actions.purchaseInit())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
