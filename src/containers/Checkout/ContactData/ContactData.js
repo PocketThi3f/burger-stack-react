@@ -79,9 +79,6 @@ class ContactData extends Component {
         event.preventDefault();
         // console.log(this.props.toppings);
         // Create a path with new name
-        this.setState({
-            loading: true
-        });
         const formData = {};
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
@@ -91,21 +88,6 @@ class ContactData extends Component {
             price: this.props.price,
             orderData: formData
         }
-        // End with .json in order for Firebase to call/function
-        axios.post('/orders.json', order)
-            .then(res => {
-                this.setState({
-                    loading: false
-                });
-                this.props.history.push('/');
-                console.log(res);
-            })
-            .catch(error => {
-                this.setState({
-                    loading: false
-                    // console.log(error);
-                })
-            });
     }
 
     // When input is passed or text changes in the input box, listen to changes

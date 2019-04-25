@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import axios from '../../axios-orders';
 import { connect } from 'react-redux';
 
-import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import Aux from '../../hoc/Aux.js';
@@ -11,7 +11,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-import * as actionTypes from '../../store/actions/actionTypes';
+import * as burgerBuilderActions from '../../store/actions/index';
 
 
 class BurgerBuilder extends Component {
@@ -30,25 +30,13 @@ class BurgerBuilder extends Component {
 
     // Let's use the more modern approach for state
     state = {
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
     }
 
     // Component to retrieve data from backend (Firebase)
     componentDidMount () {
         console.log(this.props);
-        // axios.get('https://burger-stackz.firebaseio.com/toppings.json')
-        //     .then(res => {
-        //         this.setState({
-        //             toppings: res.data
-        //         });
-        //     })
-        //     .catch(err => {
-        //         this.setState({
-        //             error: true
-        //         });
-        //     });
+        this.props.onInitToppings();
     }
 
     // Purchase with Order Button and then pop-up a Modal with Summary
@@ -148,7 +136,7 @@ class BurgerBuilder extends Component {
         let orderSummary = null;
 
         // New let variable to show spinner while we wait for burger to render
-        let burger = this.state.error ? <p>Toppings got thrown out!</p> : <Spinner />;
+        let burger = this.props.error ? <p>Toppings got thrown out!</p> : <Spinner />;
 
         if (this.props.topps) {
             burger = (
@@ -169,9 +157,6 @@ class BurgerBuilder extends Component {
             purchaseApproved={this.purchaseApproveHandler}
             price={this.props.price} />;
         }
-        if (this.state.loading) {
-            orderSummary = <Spinner />;
-        }
 
         return (
             <Aux>
@@ -187,14 +172,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         topps: state.toppings,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onToppingAdded: (toppingName) => dispatch({type: actionTypes.ADD_TOPPINGS, toppingName}),
-        onToppingRemoved: (toppingName) => dispatch({type: actionTypes.REMOVE_TOPPINGS, toppingName})
+        onToppingAdded: (toppingName) => dispatch(burgerBuilderActions.addTopping(toppingName)),
+        onToppingRemoved: (toppingName) => dispatch(burgerBuilderActions.removeTopping(toppingName)),
+        onInitToppings: () => dispatch(burgerBuilderActions.initToppings())
     };
 }
 

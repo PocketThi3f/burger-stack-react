@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
-import { createStore } from 'redux';
-import reducer from './store/reducers/burgerBuilder';
+import { createStore, applyMiddleware, compose } from 'redux';
+import burgerBuilderReducer from './store/reducers/burgerBuilder';
 
 import './index.css';
 import App from './App';
@@ -23,8 +24,13 @@ import * as serviceWorker from './serviceWorker';
 //     }
 // };
 
+// Enhancers with Advanced Redux (to setup use: https://github.com/zalmoxisus/redux-devtools-extension)
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 // The universal name adopted for createStore + reducer for Redux package
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(burgerBuilderReducer, composeEnhancers(
+    applyMiddleware(thunk)
+));
 
 const app = (
     <Provider store={store}>

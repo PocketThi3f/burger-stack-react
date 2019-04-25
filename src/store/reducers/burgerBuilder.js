@@ -1,13 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    toppings: {
-        salad: 0,
-        bacon: 0,
-        meat: 0,
-        cheese: 0
-    },
-    totalPrice: 2
+    toppings: null,
+    totalPrice: 2,
+    error: false
 };
 
 const INGREDIENT_PRICES = {
@@ -20,7 +16,7 @@ const INGREDIENT_PRICES = {
 // Demo of deep cloning states with copying and pasting into a newly created object
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADD_TOPPINGS:
+        case actionTypes.ADD_TOPPING:
             return {
                 ...state,
                 toppings: {
@@ -29,7 +25,7 @@ const reducer = (state = initialState, action) => {
                 },
                 totalPrice: state.totalPrice + INGREDIENT_PRICES[action.toppingName]
             }
-        case actionTypes.REMOVE_TOPPINGS:
+        case actionTypes.REMOVE_TOPPING:
             return {
                 ...state,
                 toppings: {
@@ -37,6 +33,17 @@ const reducer = (state = initialState, action) => {
                     [action.toppingName]: state.toppings[action.toppingName] - 1
                 },
                 totalPrice: state.totalPrice - INGREDIENT_PRICES[action.toppingName]
+            }
+        case actionTypes.SET_TOPPINGS:
+            return {
+                ...state,
+                toppings: action.toppings, // Here you would need to set a new object and list as action.toppings.salad (manually changing order of ingredients)
+                error: false
+            }
+        case actionTypes.FETCH_TOPPING_ERROR:
+            return {
+                ...state,
+                error: true
             }
         default:
             return state;
