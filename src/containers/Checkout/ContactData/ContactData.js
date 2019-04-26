@@ -122,26 +122,35 @@ class ContactData extends Component {
     }
 
     // Validation method for form submission
-    checkValidity (value, rules) {
+    checkValidity(value, rules) {
         let isValid = true;
         if (!rules) {
             return true;
         }
-
+        
         if (rules.required) {
-            isValid = value.trim() !== '';
+            isValid = value.trim() !== '' && isValid;
         }
 
-        // Minimum length of text required input box
         if (rules.minLength) {
-            isValid = value.length >= rules.minLength;
+            isValid = value.length >= rules.minLength && isValid
         }
-        return isValid;
 
-        // Max length of text 
-        // if (rules.minLength) {
-        //     isValid = value.length >= rules.minLength;
-        // }
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        }
+
+        if (rules.isEmail) {
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        return isValid;
     }
 
     render () {
