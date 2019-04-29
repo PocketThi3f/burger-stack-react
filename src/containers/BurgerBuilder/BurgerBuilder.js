@@ -93,9 +93,14 @@ class BurgerBuilder extends Component {
 
     // Confirming purchase with handler; Note => You cannot use it in its raw form [not as => function] when handling events
     purchasingHandler = () => {
-        this.setState({
-            purchasing: true
-        });
+        if (this.props.isAuthenticated) {
+            this.setState({
+                purchasing: true
+            });
+        } else {
+            this.props.onSetAuthRedirect('/checkout');
+            this.props.history.push('/auth');
+        }
     }
 
     // Close the modal or cancelling the purchase modal
@@ -148,7 +153,8 @@ class BurgerBuilder extends Component {
                         disabled={disabledInfo}
                         price={this.props.price}
                         purchasable={this.updatePurchaseState(this.props.topps)}
-                        purchased={this.purchasingHandler} />
+                        purchased={this.purchasingHandler}
+                        isAuth={this.props.isAuthenticated} />
                 </Aux>
             );
             orderSummary = <OrderSummary 
@@ -173,7 +179,8 @@ const mapStateToProps = state => {
     return {
         topps: state.burgerBuilder.toppings,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 }
 
@@ -181,7 +188,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onToppingAdded: (toppingName) => dispatch(burgerBuilderActions.addTopping(toppingName)),
         onToppingRemoved: (toppingName) => dispatch(burgerBuilderActions.removeTopping(toppingName)),
-        onInitToppings: () => dispatch(burgerBuilderActions.initToppings())
+        onInitToppings: () => dispatch(burgerBuilderActions.initToppings()),
+        onSetAuthRedirect: (path) => dispatch(burgerBuilderActions.setAuthRedirect(path))
     };
 }
 

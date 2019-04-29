@@ -88,10 +88,11 @@ class ContactData extends Component {
         const order = {
             toppings: this.props.topps,
             price: this.props.price,
-            orderData: formData
+            orderData: formData,
+            userId: this.props.userId
         }
 
-        this.props.onOpenOrder(order);
+        this.props.onOpenOrder(order, this.props.token);
     }
 
     // When input is passed or text changes in the input box, listen to changes
@@ -197,13 +198,15 @@ const mapStateToProps = state => {
     return {
         topps: state.burgerBuilder.toppings,
         price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading
-    }
+        loading: state.order.loading,
+        token: state.auth.token,
+        userId: state.auth.userId
+    };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOpenOrder: (orderData) => dispatch(actions.burgerOpenOrder(orderData))
+        onOpenOrder: (orderData, token) => dispatch(actions.burgerOpenOrder(orderData, token))
     };
 };
 

@@ -4,7 +4,8 @@ import { updatedObject } from '../utility';
 const initialState = {
     toppings: null,
     totalPrice: 1.50,
-    error: false
+    error: false,
+    building: false
 };
 
 const INGREDIENT_PRICES = {
@@ -20,7 +21,8 @@ const addTopping = (state, action) => {
     const updatedToppings = updatedObject(state.toppings, updatedTopping);
     const updatedState = {
         toppings: updatedToppings,
-        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.toppingName]
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.toppingName],
+        building: true
     }
     return updatedObject(state, updatedState);
 };
@@ -30,17 +32,18 @@ const removeTopping = (state, action) => {
     const updatedTopps = updatedObject(state.toppings, updatedTopp);
     const updatedSt = {
         toppings: updatedTopps,
-        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.toppingName]
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.toppingName],
+        building: true
     }
     return updatedObject(state, updatedSt);
 };
 
 const setToppings = (state, action) => {
     return updatedObject(state, {
-        ...state,
-            toppings: action.toppings, // Here you would need to set a new object and list as action.toppings.salad (manually changing order of ingredients)
+            toppings: action.toppings, // Here you would need to set a new object and list as salad: action.toppings.salad (manually changing order of ingredients)
             totalPrice: 1.50,
-            error: false
+            error: false,
+            building: false
     });
 };
 
