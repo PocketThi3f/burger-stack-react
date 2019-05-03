@@ -27,6 +27,7 @@ import * as serviceWorker from './serviceWorker';
 // };
 
 // Enhancers with Advanced Redux (to setup use: https://github.com/zalmoxisus/redux-devtools-extension)
+// Add thunk https://github.com/reduxjs/redux-thunk
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
