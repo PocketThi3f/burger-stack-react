@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "c4320130e4526e1e6ed3",
+    "revision": "e11cc0a8d4bc34ab0896",
     "url": "/static/css/main.58e21cf9.chunk.css"
   },
   {
-    "revision": "c4320130e4526e1e6ed3",
-    "url": "/static/js/main.24b4098c.chunk.js"
+    "revision": "e11cc0a8d4bc34ab0896",
+    "url": "/static/js/main.af448402.chunk.js"
   },
   {
     "revision": "b99823fd552206a9d84d",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
     "url": "/static/media/burger-logo.b8503d26.png"
   },
   {
-    "revision": "9fccfe21671ac4c681d16ccac19ed83a",
+    "revision": "a6d96ad7b0d77ef95651ab87eb461e49",
     "url": "/index.html"
   }
 ];
